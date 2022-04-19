@@ -1,13 +1,10 @@
-import 'package:dofsweb/bindings/home_binding.dart';
+import 'package:dofsweb/blocs/splash/splash_bloc.dart';
+import 'package:dofsweb/notifiers/auth_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
-import 'bindings/auth_binding.dart';
-import 'bindings/splash_binding.dart';
-import 'screens/homepage.dart';
-import 'screens/loginpage.dart';
-import 'screens/registrationpage.dart';
-import 'screens/splashpage.dart';
+import 'screens/splash_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,41 +13,34 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Doctor DOFS',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.lightBlue,
+    return ChangeNotifierProvider<AuthNotifier>(
+      create: (context) => AuthNotifier(),
+      child: MaterialApp(
+        title: 'Doctor DOFS',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.lightBlue,
+          scaffoldBackgroundColor: const Color(0xFFe3e5e8),
+          appBarTheme: const AppBarTheme(
+            elevation: 0.5,
+            centerTitle: true,
+            backgroundColor: Color(0XFF193566),
+            iconTheme: IconThemeData(
+              color: Colors.white,
+            ),
+            titleTextStyle: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+        ),
+        home: BlocProvider(
+          create: (context) => SplashBloc(),
+          child: const SplashPage(),
+        ),
       ),
-      initialRoute: '/',
-      getPages: [
-        GetPage(
-          name: '/',
-          page: () => const SplashPage(),
-          binding: SplashBinding(),
-        ),
-        GetPage(
-          name: '/home',
-          page: () => HomePage(),
-          bindings: [
-            AuthBinding(),
-            HomeBinding(),
-          ],
-        ),
-        GetPage(
-          name: '/login',
-          page: () => LoginPage(),
-          binding: AuthBinding(),
-        ),
-        GetPage(
-          name: '/register',
-          page: () => RegistrationPage(),
-          binding: AuthBinding(),
-        ),
-      ],
     );
   }
 }

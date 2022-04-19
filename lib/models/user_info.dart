@@ -82,6 +82,10 @@ class UserInfo {
   }
 
   String fullName() {
-    return '${fname!} ${mname!} ${lname!}';
+    if (mname!.isNotEmpty) {
+      return '$fname $mname $lname';
+    } else {
+      return '$fname $lname';
+    }
   }
 }

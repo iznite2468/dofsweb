@@ -13,8 +13,8 @@ class Disease {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['disease_id'] = diseaseId;
-    data['disease_name'] = diseaseName;
+    data['diseaseId'] = diseaseId;
+    data['diseaseName'] = diseaseName;
     data['description'] = description;
     return data;
   }

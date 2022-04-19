@@ -6,6 +6,7 @@ class PatientCase {
   String? dateAdmission;
   String? dateOnset;
   String? caseClassification;
+  int? delStatus;
   int? patientId;
   String? patientFname;
   String? patientMname;
@@ -30,6 +31,7 @@ class PatientCase {
       this.dateAdmission,
       this.dateOnset,
       this.caseClassification,
+      this.delStatus,
       this.patientId,
       this.patientFname,
       this.patientMname,
@@ -54,9 +56,10 @@ class PatientCase {
     dateAdmission = json['date_admission'];
     dateOnset = json['date_onset'];
     caseClassification = json['case_classification'];
+    delStatus = json['del_status'];
     patientId = json['patient_id'];
     patientFname = json['patient_fname'];
-    patientMname = json['patient_mname'] ?? '';
+    patientMname = json['patient_mname'];
     patientLname = json['patient_lname'];
     sex = json['sex'];
     age = json['age'];
@@ -68,7 +71,7 @@ class PatientCase {
     coordinates = json['coordinates'];
     barangayId = json['barangay_id'];
     barangayName = json['barangay_name'];
-    population = int.tryParse(json['population'].toString());
+    population = json['population'];
   }
 
   Map<String, dynamic> toJson() {
@@ -80,6 +83,7 @@ class PatientCase {
     data['date_admission'] = dateAdmission;
     data['date_onset'] = dateOnset;
     data['case_classification'] = caseClassification;
+    data['del_status'] = delStatus;
     data['patient_id'] = patientId;
     data['patient_fname'] = patientFname;
     data['patient_mname'] = patientMname;
@@ -98,11 +102,11 @@ class PatientCase {
     return data;
   }
 
-  static List<PatientCase> fromList(List rawList) {
+  static List<PatientCase> fromList(List<dynamic> data) {
     var list = <PatientCase>[];
-    if (rawList.isEmpty) return list;
+    if (data.isEmpty) return list;
 
-    for (var item in rawList) {
+    for (var item in data) {
       list.add(PatientCase.fromJson(item));
     }
 
@@ -110,6 +114,10 @@ class PatientCase {
   }
 
   String fullName() {
-    return '${patientFname!} ${patientMname!} ${patientLname!}';
+    if (patientMname != null) {
+      return '$patientFname $patientMname $patientLname';
+    } else {
+      return '$patientFname $patientLname';
+    }
   }
 }
