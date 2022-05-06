@@ -366,6 +366,39 @@ class ServiceApi {
     return response;
   }
 
+  Future<Response> getPivotByYear(String year) async {
+    final data = await session.getSession();
+    final response = await dio.get(
+      '$baseUrl/pivot/year/$year',
+      options: Options(
+        contentType:
+        ContentType.parse("application/x-www-form-urlencoded").value,
+        headers: {
+          'authorization': data!.token,
+        },
+      ),
+    );
+
+    return response;
+  }
+
+  Future<Response> getPivotByDisease(String disease) async {
+    final data = await session.getSession();
+    final response = await dio.get(
+      '$baseUrl/pivot/disease/$disease',
+      options: Options(
+        contentType:
+        ContentType.parse("application/x-www-form-urlencoded").value,
+        headers: {
+          'authorization': data!.token,
+        },
+      ),
+    );
+
+    return response;
+  }
+
+
   //SYMPTOMS REQUEST
 
   Future<Response> getSymptoms() async {

@@ -19,8 +19,8 @@ class SplashPage extends StatelessWidget {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => BlocProvider(
-                create: (context) => HomeBloc(),
-                child: const HomePage(),
+                create: (context) => HomeBloc()..add(LoadPivotResult('Dengue')),
+                child: HomePage(),
               ),
               settings: RouteSettings(arguments: state.userPreferences),
             ),

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dofsweb/models/pivot_by_disease.dart';
 import 'package:dofsweb/models/pivot_result.dart';
 import 'package:dofsweb/services/service_api.dart';
 import 'package:dofsweb/services/user_session.dart';
@@ -19,11 +20,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
       if (event is LoadPivotResult) {
         emit.call(LoadingPivotResult());
-        final response = await _api.getPivots();
+        //final response = await _api.getPivots();
+        final response = await _api.getPivotByDisease(event.disease);
         if (response.data['success']) {
-          final list = PivotResult.fromList(response.data['payload']);
-          list.sort((a, b) => DateTime.tryParse(a.quarter!)!
-              .compareTo(DateTime.tryParse(b.quarter!)!));
+          //final list = PivotResult.fromList(response.data['payload']);
+          final list = PivotByDisease.fromList(response.data['payload']);
+          list.sort((a, b) => a.weeks!.compareTo(b.weeks!));
 
           emit.call(PivotResultLoaded(list));
         } else {

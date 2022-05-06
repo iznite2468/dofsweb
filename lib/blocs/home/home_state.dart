@@ -12,7 +12,8 @@ class SignedOut extends HomeState {}
 class LoadingPivotResult extends HomeState {}
 
 class PivotResultLoaded extends HomeState {
-  final List<PivotResult> pivotResult;
+  //final List<PivotResult> pivotResult;
+  final List<PivotByDisease> pivotResult;
 
   PivotResultLoaded(this.pivotResult);
 }
