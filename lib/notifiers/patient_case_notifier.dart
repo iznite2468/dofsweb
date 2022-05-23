@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 class PatientCaseNotifier extends ChangeNotifier {
   final _api = ServiceApi();
 
+  bool _dispose = false;
   bool _loadingPatientInfo = false;
   bool _loadingDiseases = false;
   bool _addingPatientCase = false;
@@ -16,6 +17,7 @@ class PatientCaseNotifier extends ChangeNotifier {
 
   late int _selectedPatientId;
   late int _selectedDiseaseId;
+  late String _selectedCaseClassification;
 
   bool get loadingPatientInfo => _loadingPatientInfo;
   bool get loadingDiseases => _loadingDiseases;
@@ -23,6 +25,7 @@ class PatientCaseNotifier extends ChangeNotifier {
 
   int get selectedPatientId => _selectedPatientId;
   int get selectedDiseaseId => _selectedDiseaseId;
+  String get selectedCaseClassification => _selectedCaseClassification;
 
   set selectedPatientId(value) {
     _selectedPatientId = value;
@@ -33,6 +36,37 @@ class PatientCaseNotifier extends ChangeNotifier {
     _selectedDiseaseId = value;
     notifyListeners();
   }
+
+  set selectedCaseClassification(value) {
+    _selectedCaseClassification = value;
+    notifyListeners();
+  }
+
+  List<DropdownMenuItem<String>> rabiesDengueClassification = const [
+    DropdownMenuItem<String>(
+      child: Text('Suspected'),
+      value: 'suspected',
+    ),
+    DropdownMenuItem<String>(
+      child: Text('Probable'),
+      value: 'probable',
+    ),
+    DropdownMenuItem<String>(
+      child: Text('Confirmed'),
+      value: 'confirmed',
+    ),
+  ];
+
+  List<DropdownMenuItem<String>> tbClassification = const [
+    DropdownMenuItem<String>(
+      child: Text('Pulmonary'),
+      value: 'pulmonary',
+    ),
+    DropdownMenuItem<String>(
+      child: Text('Extra Pulmonary'),
+      value: 'extra_pulmonary',
+    ),
+  ];
 
   void initPatientInfo() async {
     _loadingPatientInfo = true;
@@ -59,11 +93,14 @@ class PatientCaseNotifier extends ChangeNotifier {
             .where((element) => element.diseaseId == diseaseId)
             .isEmpty) {
           _selectedDiseaseId = diseases.first.diseaseId!;
+          selectCaseClassification(_selectedDiseaseId);
         } else {
           _selectedDiseaseId = diseaseId!;
+          selectCaseClassification(_selectedDiseaseId);
         }
       } else {
         _selectedDiseaseId = diseases.first.diseaseId!;
+        selectCaseClassification(_selectedDiseaseId);
       }
 
       _loadingDiseases = false;
@@ -107,5 +144,32 @@ class PatientCaseNotifier extends ChangeNotifier {
   void setAddingPatientCase(bool value) {
     _addingPatientCase = value;
     notifyListeners();
+  }
+
+  void selectCaseClassification(int diseaesId) {
+    switch (_selectedDiseaseId) {
+      case 1:
+        _selectedCaseClassification = rabiesDengueClassification.first.value!;
+        break;
+      case 2:
+        _selectedCaseClassification = rabiesDengueClassification.first.value!;
+        break;
+      case 3:
+        _selectedCaseClassification = tbClassification.first.value!;
+        break;
+    }
+  }
+
+  @override
+  void notifyListeners() {
+    if (!_dispose) {
+      super.notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    _dispose = true;
+    super.dispose();
   }
 }

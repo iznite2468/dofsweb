@@ -577,6 +577,7 @@ class HomePage extends StatelessWidget {
                                   if (state is PivotResultLoaded) {
                                     final pivotResult = state.pivotResult;
                                     return PivotChartByDisease(
+                                      diseaseType: state.diseaseType,
                                       pivotResult: pivotResult,
                                     );
                                   } else {
@@ -623,7 +624,7 @@ class HomePage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
                                   const Text(
-                                    'TRENDS',
+                                    'Weekly Outbreak Probability',
                                     style: TextStyle(
                                       fontSize: 25,
                                     ),

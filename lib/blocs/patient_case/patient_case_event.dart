@@ -18,3 +18,15 @@ class DeletePatientCase extends PatientCaseEvent {
 }
 
 class LoadPatientInfo extends PatientCaseEvent {}
+
+class AddPatientCases extends PatientCaseEvent {
+  final List<PatientCaseData> data;
+
+  AddPatientCases(this.data);
+}
+
+class AddPatients extends PatientCaseEvent {
+  final List<PatientInfoData> data;
+
+  AddPatients(this.data);
+}

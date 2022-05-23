@@ -13,9 +13,10 @@ class LoadingPivotResult extends HomeState {}
 
 class PivotResultLoaded extends HomeState {
   //final List<PivotResult> pivotResult;
+  final String diseaseType;
   final List<PivotByDisease> pivotResult;
 
-  PivotResultLoaded(this.pivotResult);
+  PivotResultLoaded(this.diseaseType, this.pivotResult);
 }
 
 class Error extends HomeState {

@@ -1,8 +1,16 @@
+import 'dart:convert';
+import 'dart:developer';
+import 'dart:html';
+import 'dart:io';
+
+import 'package:csv/csv.dart';
 import 'package:dofsweb/blocs/patient_case/patient_case_bloc.dart';
 import 'package:dofsweb/models/patient_case.dart';
+import 'package:dofsweb/models/patient_case_data.dart';
 import 'package:dofsweb/notifiers/patient_case_notifier.dart';
 import 'package:dofsweb/screens/patient_case/edit_patient_case.dart';
 import 'package:dofsweb/widgets/custom_list_tile.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -93,27 +101,35 @@ class PatientCasePage extends StatelessWidget {
                         top: 15.0,
                         right: 15,
                       ),
-                      child: IconButton(
-                        onPressed: () async {
-                          final result = await Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => ChangeNotifierProvider(
-                                create: (_) => PatientCaseNotifier()
-                                  ..initPatientInfo()
-                                  ..initDiseases(),
-                                child: AddPatientCasePage(),
-                              ),
-                            ),
-                          );
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            onPressed: () async {
+                              final result = await Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => ChangeNotifierProvider(
+                                    create: (_) => PatientCaseNotifier()
+                                      ..initPatientInfo()
+                                      ..initDiseases(),
+                                    child: BlocProvider.value(
+                                      value: context.read<PatientCaseBloc>(),
+                                      child: AddPatientCasePage(),
+                                    ),
+                                  ),
+                                ),
+                              );
 
-                          if (result) {
-                            context
-                                .read<PatientCaseBloc>()
-                                .add(LoadPatientCases());
-                          }
-                        },
-                        icon: const Icon(Icons.person_add),
-                        iconSize: 30,
+                              if (result) {
+                                context
+                                    .read<PatientCaseBloc>()
+                                    .add(LoadPatientCases());
+                              }
+                            },
+                            icon: const Icon(Icons.person_add),
+                            iconSize: 30,
+                          ),
+                        ],
                       ),
                     )
                   ],
@@ -209,7 +225,22 @@ class PatientCasePage extends StatelessWidget {
                           },
                           title: Text(data.fullName()),
                           subtitle: Text(data.diseaseName!),
-                          trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                          trailing: Container(
+                            padding: const EdgeInsets.all(9),
+                            decoration: BoxDecoration(
+                              color: data.delStatus == 1
+                                  ? Colors.red
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Text(
+                              data.delStatus == 1 ? 'ARCHIVED' : '',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
                         ),
                       );
                     },

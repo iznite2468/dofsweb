@@ -3,11 +3,9 @@ import 'dart:typed_data';
 
 import 'package:dofsweb/blocs/home/home_bloc.dart';
 import 'package:dofsweb/models/pivot_by_disease.dart';
-import 'package:dofsweb/models/pivot_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
@@ -78,9 +76,16 @@ class ReportsPage extends StatelessWidget {
                       final pivotResult = state.pivotResult;
                       return SfCartesianChart(
                         key: chartKey,
-                        primaryXAxis: CategoryAxis(),
+                        primaryXAxis: CategoryAxis(
+                          title: AxisTitle(text: "Weeks"),
+                        ),
+                        primaryYAxis: NumericAxis(
+                          decimalPlaces: 0,
+                          title: AxisTitle(text: "Cases"),
+                        ),
                         title: ChartTitle(
-                          text: 'Forecasting',
+                          text:
+                              'Distribution of ${state.diseaseType} Cases by Morbidity Week from ${pivotResult.first.weeks}-${pivotResult.last.weeks} week | General Santos City',
                           textStyle: const TextStyle(
                             color: Colors.black,
                             fontSize: 17,

@@ -42,3 +42,27 @@ class PatientInfoLoaded extends PatientCaseState {
 
   PatientInfoLoaded(this.patients);
 }
+
+class AddingPatientCases extends PatientCaseState {
+  final String message;
+
+  AddingPatientCases(this.message);
+}
+
+class PatientCasesAdded extends PatientCaseState {
+  final String message;
+
+  PatientCasesAdded(this.message);
+}
+
+class AddingPatients extends PatientCaseState {
+  final String message;
+
+  AddingPatients(this.message);
+}
+
+class PatientsAdded extends PatientCaseState {
+  final String message;
+
+  PatientsAdded(this.message);
+}

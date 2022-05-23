@@ -2,6 +2,7 @@ import 'package:dofsweb/blocs/register/register_bloc.dart';
 import 'package:dofsweb/helpers/constants.dart';
 import 'package:dofsweb/models/user_data.dart';
 import 'package:dofsweb/notifiers/auth_notifier.dart';
+import 'package:dofsweb/screens/terms_and_condition.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -419,27 +420,29 @@ class RegistrationPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      RichText(
-                        textAlign: TextAlign.start,
-                        text: TextSpan(
-                          text: 'By signing up, you agree to our ',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 17,
-                          ),
-                          children: [
-                            TextSpan(
-                              recognizer: TapGestureRecognizer()..onTap = () {},
-                              text: 'terms and condition.',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // const SizedBox(height: 20),
+                      // RichText(
+                      //   textAlign: TextAlign.start,
+                      //   text: TextSpan(
+                      //     text: 'By signing up, you agree to our ',
+                      //     style: const TextStyle(
+                      //       color: Colors.white,
+                      //       fontSize: 17,
+                      //     ),
+                      //     children: [
+                      //       TextSpan(
+                      //         recognizer: TapGestureRecognizer()..onTap = () {
+
+                      //         },
+                      //         text: 'terms and condition.',
+                      //         style: const TextStyle(
+                      //           fontWeight: FontWeight.bold,
+                      //           decoration: TextDecoration.underline,
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       const SizedBox(height: 25),
                       SizedBox(
                         width: 500,
@@ -491,26 +494,34 @@ class RegistrationPage extends StatelessWidget {
                                     );
                                   }
                                   return TextButton(
-                                    onPressed: () {
+                                    onPressed: () async {
                                       if (!formKey.currentState!.validate()) {
                                         return;
                                       }
 
-                                      final data = UserData(
-                                        username: txtUser.text,
-                                        password: txtPass.text,
-                                        fname: txtFname.text,
-                                        mname: txtMname.text,
-                                        lname: txtLname.text,
-                                        completeAddress:
-                                            txtCompleteAddress.text,
-                                        email: txtEmail.text,
-                                        contactNumber: txtContactNum.text,
-                                      );
+                                      final result = await showDialog(
+                                          context: context,
+                                          builder: (_) {
+                                            return const TermsAndConditions();
+                                          });
 
-                                      context
-                                          .read<RegisterBloc>()
-                                          .add(RegisterUser(data));
+                                      if (result) {
+                                        final data = UserData(
+                                          username: txtUser.text,
+                                          password: txtPass.text,
+                                          fname: txtFname.text,
+                                          mname: txtMname.text,
+                                          lname: txtLname.text,
+                                          completeAddress:
+                                              txtCompleteAddress.text,
+                                          email: txtEmail.text,
+                                          contactNumber: txtContactNum.text,
+                                        );
+
+                                        context
+                                            .read<RegisterBloc>()
+                                            .add(RegisterUser(data));
+                                      }
                                     },
                                     style: TextButton.styleFrom(
                                       padding: const EdgeInsets.all(15),

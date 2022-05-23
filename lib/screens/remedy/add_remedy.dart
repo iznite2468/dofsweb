@@ -115,6 +115,12 @@ class AddRemedyPage extends StatelessWidget {
                   label: Text('Description'),
                 ),
                 maxLines: 5,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Required field';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 15),
               BlocConsumer<RemedyBloc, RemedyState>(

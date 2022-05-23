@@ -10,3 +10,12 @@ bool isEmail(String email) {
 
   return regExp.hasMatch(email);
 }
+
+String format(String value) {
+  var formatted = value.split('/');
+  var year = formatted[formatted.length - 1];
+  var day = formatted[1].length <= 1 ? '0${formatted[1]}' : formatted[1];
+  var month = formatted[0].length <= 1 ? '0${formatted[0]}' : formatted[0];
+
+  return '$year-$month-$day';
+}
