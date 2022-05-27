@@ -668,7 +668,7 @@ class HomePage extends StatelessWidget {
                                       ),
                                       DataRow(
                                         cells: [
-                                          DataCell(Text('Dengue')),
+                                          DataCell(Text('Tuberculosis')),
                                           DataCell(Text('10%')),
                                         ],
                                       ),
